@@ -582,7 +582,7 @@ class Pelican(dict):
 
                 result = [element for element in data if check_condition(condition,element)]
 
-            return result
+            return copy.deepcopy(result)
 
             # Write the newly updated data back to the storage
             #self._storage.write(tables)
