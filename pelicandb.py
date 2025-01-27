@@ -424,13 +424,16 @@ class Pelican(dict):
                             item[key] = value
                         set.append(item) 
 
-                  if "session" in kwargs:
+                  if len(set)>0:
+                    if "session" in kwargs:
 
-                    return self.insert_many(set, update=True, session = kwargs.get("session"))                     
-                  
-                  else:
+                        return self.insert_many(set, update=True, session = kwargs.get("session"))                     
                     
-                    return self.insert_many(set, update=True)  
+                    else:
+                        
+                        return self.insert_many(set, update=True)  
+                  else:
+                      raise ValueError(f'Items not found {condition}')  
         """
         Delete document/list of document/query results
 
@@ -1538,6 +1541,9 @@ class Pelican(dict):
             return None    
 
         def insert_many(self,documents, **kwargs):
+            if len(documents)==0:
+                raise ValueError('No documents in list')
+
             #start_time = time.time()
             collection = self._data
             #print("insert_many - read collection: --- %s seconds ---" % (time.time() - start_time))
@@ -2291,7 +2297,4 @@ def perform_command(command,db,collection_name,parameter,session=None):
     elif command=="clear" or command=="--":         
         result = db[collection_name].clear()         
 
-    return result           
-
-          
-     
+    return result                    
