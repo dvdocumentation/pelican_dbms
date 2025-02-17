@@ -576,11 +576,11 @@ class Pelican(dict):
             if self._db._RAM == True:
                 data = self._maindata
                 
-                result = [element for element in data.values() if check_condition(condition,element)]
+                result = [element for element in data.values() if check_condition(condition,element) and element.get("_id") in self._data_idx]
             else:         
                 data = self.all()
 
-                result = [element for element in data if check_condition(condition,element)]
+                result = [element for element in data if check_condition(condition,element)  and element.get("_id") in self._data_idx]
 
             return copy.deepcopy(result)
 
